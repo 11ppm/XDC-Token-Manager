@@ -1,3 +1,5 @@
+# XDC-Token-Manager
+
 これは、XDCやXRC20（XDCトークン）の残高を確認したり、複数のWalletから1つWalletに送金できるようにするリポジトリです。
 
 #### リポジトリを作成した背景
