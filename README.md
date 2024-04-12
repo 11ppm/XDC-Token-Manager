@@ -2,7 +2,7 @@
 
 これは、XDCやXRC20（XDCトークン）の残高を確認したり、複数のWalletから1つWalletに送金できるようにするリポジトリです。
 
-#### リポジトリを作成した背景
+## リポジトリを作成した背景
 
 1. SRXノードやPLIノードを保有していると、毎月報酬を受け取りますが、ノードが複数ある場合、報酬が入ったかどうかの確認などが簡単ではありません。それでWallet毎のXDCとSRX, XDCとPLIの残高をまとめて、csvファイルで出力します。
 2. またSRXノードやPLIノードの報酬を受け取った複数のWalletを1つのWalletに送金して、まとめたくなります。そうすることで、Walletの残高が0になり、次回の受け取った報酬がわかりやすくなりますし、取引所で売却する時でも手作業による送金が1度で済みます。
@@ -54,6 +54,7 @@ npm install xdc3 dotenv readline-sync
 ## 4. `.env`の編集
 - XDCWalletの秘密鍵を記入します。とりあえず`PRIVATE_KEY_1`から`PRIVATE_KEY_10`まで書いています。必要な数だけ増減することができます。秘密鍵が記入されていない場合は、スルーされます。
 - 複数ウォレットから1つのウォレットに送金する宛先・ウォレットアドレス`YOUR_RECIPIENT_WALLET_ADDRESS`を記入してください。アドレスの頭は、xdcから始まって結構です。送金先は忘れないようにしてください。
+- 作成した`.env`を今後も使う可能性がある場合は、ローカルPCなどで現住に保管しておいてください。
 
 <img src="img/01.png">
 
@@ -69,7 +70,8 @@ npm install xdc3 dotenv readline-sync
 
 ### 1. 環境ファイル .env を暗号化する (encrypt.js)
 - `.env`を先に編集しておく必要があります
-- 任意のパスワードを2回を入力します。入力したパスワードは、忘れないでください。
+- 任意のパスワードを2回を入力します。入力したパスワードは、忘れないでください。秘密鍵やパスワードを決して他者とは共有せず、安全な場所に保管してください。
+- `.env`ファイルは削除されます
 ### 2. PLI残高を取得する (getBalances_Pli.js)
 - csvファイルで出力されます
 ### 3. SRX残高を取得する (getBalances_Srx.js)
@@ -79,9 +81,9 @@ npm install xdc3 dotenv readline-sync
 ### 5. SRXを1つのアドレスに送信する (sendSrxToOneAddress.js)
 - `.env`の`YOUR_RECIPIENT_WALLET_ADDRESS`宛に送金されます。忘れた場合は、`6.`を実行して、`.env`を復号化してください
 ### 6. 環境ファイル .env.encrypted を復号化する (decrypt.js)
-- `.env.encrypted`と`keys.json`がなければ、復号化はできません。
+- `.env.encrypted`と`keys.json`がなければ、復号化はできません。この2つをバックアップしておくと、`.env`は復元することができます。
 
-## Apothem の XDC と PLI 残高確認
+## 6. Apothem の XDC と PLI 残高確認
 
 Mainnetで実行するのが怖い方もおられると思います。気休め程度ですが、実際にどのように動作するのかをApothem用に1つだけコードを用意しました。
 ```
