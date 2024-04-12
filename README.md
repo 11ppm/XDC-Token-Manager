@@ -1,64 +1,63 @@
 # XDC-Token-Manager
 
-これは、XDCやXRC20（XDCトークン）の残高を確認したり、複数のWalletから1つWalletに送金できるようにするリポジトリです。
+[README Japanese version](./README_Japanese.md)
 
-## リポジトリを作成した背景
+This repository enables you to check the balance of XDC and XRC20 tokens and transfer funds from multiple wallets to a single wallet.
 
-1. SRXノードやPLIノードを保有していると、毎月報酬を受け取りますが、ノードが複数ある場合、報酬が入ったかどうかの確認などが簡単ではありません。それでWallet毎のXDCとSRX, XDCとPLIの残高をまとめて、csvファイルで出力します。
-2. またSRXノードやPLIノードの報酬を受け取った複数のWalletを1つのWalletに送金して、まとめたくなります。そうすることで、Walletの残高が0になり、次回の受け取った報酬がわかりやすくなりますし、取引所で売却する時でも手作業による送金が1度で済みます。
+## Background of Repository Creation
 
-## ポイント
+1. Owning SRX nodes or PLI nodes allows you to receive monthly rewards. However, it's not easy to check if the rewards have been credited when you have multiple nodes. Therefore, we consolidate the XDC, SRX, and PLI balances of each wallet and output them in a csv file.
+2. Also, we want to consolidate the rewards received from multiple wallets into one wallet. Doing so reduces the balance of the wallets to zero, making it easier to understand the next rewards received and simplifies the manual transfers when selling on exchanges.
 
-- 残高を確認するだけならばWalletアドレスがあれば可能なのですが、送金には秘密鍵が必要になります。しかしながら秘密鍵の管理は極めて重要なために、`.env`ファイルを使用しつつ、さらに暗号化し、パスワードで保護をすることにしました。
+## Key Points
 
+- While it is possible to check the balance using just a wallet address, a private key is required for transfers. However, managing private keys is extremely important, so we use a `.env` file, further encrypted and protected by a password.
 
-
-## 1. リポジトリをコピー
+## 1. Copy Repository
 ```
 cd && git clone https://github.com/11ppm/XDC-Token-Manager
 cd ~/XDC-Token-Manager
 chmod +x run.sh
 ```
 
-## 2. 実行環境の確認
+## 2. Environment Check
 
-- Ubuntuで`Node.js`と`npm`がインストールされている必要があります。それを確認するには、ターミナルで以下のコマンドを実行してください。
-- Pluginノードには、入っています。またSRXノードには入っていません。いずれにせよ本番機ではせずに、テスト機を使うようにしてください。
+- You need to have `Node.js` and `npm` installed on Ubuntu. To check this, execute the following commands in the terminal:
+- Plugin nodes have them installed, SRX nodes do not. Either way, use a test machine rather than a production machine.
 
 ```
 node -v
 npm -v
 ```
 
-- `Node.js`がインストールされていない場合は、以下のコマンドを実行します。
+- If `Node.js` is not installed, run the following command:
 
 ```
 sudo apt update && sudo apt install nodejs npm -y 
 ```
 
-## 3. npmパッケージをインストール
+## 3. Install npm Packages
 
-- `xdc3`と`dotenv`と`readline-sync`という3つのnpmパッケージをインストールします。
+- Install three npm packages: `xdc3`, `dotenv`, and `readline-sync`.
 
 ```
 npm install xdc3 dotenv readline-sync
 ```
 
-- `xdc3`: Ethereumネットワークとやり取りするためのJavaScriptライブラリ
-- `dotenv`: Node.jsアプリケーションで環境変数を管理するためのライブラリ
-- `readline-sync`: Node.jsアプリケーションでユーザーとの対話的な入力を処理するためのライブラリ
+- `xdc3`: A JavaScript library for interacting with the Ethereum network
+- `dotenv`: A library for managing environment variables in Node.js applications
+- `readline-sync`: A library for handling interactive user input in Node.js applications
 
-これらをインストールすることで、それぞれの機能を利用できるようになります。
+By installing these, you can utilize their respective functionalities.
 
-
-## 4. `.env`の編集
-- XDCWalletの秘密鍵を記入します。とりあえず`PRIVATE_KEY_1`から`PRIVATE_KEY_10`まで書いています。必要な数だけ増減することができます。秘密鍵が記入されていない場合は、スルーされます。
-- 複数ウォレットから1つのウォレットに送金する宛先・ウォレットアドレス`YOUR_RECIPIENT_WALLET_ADDRESS`を記入してください。アドレスの頭は、xdcから始まって結構です。送金先は忘れないようにしてください。
-- 作成した`.env`を今後も使う可能性がある場合は、ローカルPCなどで現住に保管しておいてください。
+## 4. Edit `.env`
+- Enter the private keys for your XDC Wallet. For now, they are written from `PRIVATE_KEY_1` to `PRIVATE_KEY_10`. You can increase or decrease the number as needed. If no private keys are entered, they will be ignored.
+- Enter the recipient wallet address to which you want to send funds from multiple wallets at `YOUR_RECIPIENT_WALLET_ADDRESS`. The address should start with 'xdc'. Don't forget the recipient.
+- If you plan to use the created `.env` file in the future, store it securely on your local PC.
 
 <img src="img/01.png">
 
-## 5. 実行コマンド
+## 5. Execute Command
 
 ```
 ./run.sh
@@ -66,31 +65,31 @@ npm install xdc3 dotenv readline-sync
 
 <img src="img/02.png">
 
-- はじめて実行する場合は、必ず最初に選択肢1を選んでください。`.env`を暗号化します。その結果、暗号化された`.env.encrypted`ファイルと複合化に必要な秘密鍵など`keys.json`が作成され、`.env`は削除されます。`.env.encrypted`と`keys.json`がなければ、復号化はできませんので、ご注意ください。
+- If you're running it for the first time, always choose option 1 first. This will encrypt your `.env`. As a result, an encrypted `.env.encrypted` file and a `keys.json` necessary for decryption are created, and the `.env` is deleted. Without `.env.encrypted` and `keys.json`, decryption is not possible.
 
-### 1. 環境ファイル .env を暗号化する (encrypt.js)
-- `.env`を先に編集しておく必要があります
-- 任意のパスワードを2回を入力します。入力したパスワードは、忘れないでください。秘密鍵やパスワードを決して他者とは共有せず、安全な場所に保管してください。
-- `.env`ファイルは削除されます
-### 2. PLI残高を取得する (getBalances_Pli.js)
-- csvファイルで出力されます
-### 3. SRX残高を取得する (getBalances_Srx.js)
-- csvファイルで出力されます
-### 4. PLIを1つのアドレスに送信する (sendPliToOneAddress.js)
-- `.env`の`YOUR_RECIPIENT_WALLET_ADDRESS`宛に送金されます。忘れた場合は、`6.`を実行して、`.env`を復号化してください
-### 5. SRXを1つのアドレスに送信する (sendSrxToOneAddress.js)
-- `.env`の`YOUR_RECIPIENT_WALLET_ADDRESS`宛に送金されます。忘れた場合は、`6.`を実行して、`.env`を復号化してください
-### 6. 環境ファイル .env.encrypted を復号化する (decrypt.js)
-- `.env.encrypted`と`keys.json`がなければ、復号化はできません。この2つをバックアップしておくと、`.env`は復元することができます。
+### 1. Encrypt environment file .env (encrypt.js)
+- You need to edit the `.env` beforehand
+- Enter an arbitrary password twice. Don't forget the password you enter. Never share your private keys or password with others, and keep them in a safe place.
+- The `.env` file will be deleted
+### 2. Get PLI balances (getBalances_Pli.js)
+- Output in a csv file
+### 3. Get SRX balances (getBalances_Srx.js)
+- Output in a csv file
+### 4. Send PLI to one address (sendPliToOneAddress.js)
+- Sent to the `YOUR_RECIPIENT_WALLET_ADDRESS` in your `.env`. If forgotten, run `6.` to decrypt the `.env`
+### 5. Send SRX to one address (sendSrxToOneAddress.js)
+- Sent to the `YOUR_RECIPIENT_WALLET_ADDRESS` in your `.env`. If forgotten, run `6.` to decrypt the `.env`
+### 6. Decrypt environment file .env.encrypted (decrypt.js)
+- Without `.env.encrypted` and `keys.json`, decryption is not possible. Backup these two to restore the `.env`.
 
-## 6. Apothem の XDC と PLI 残高確認
+## 6. Check XDC and PLI balances on Apothem
 
-Mainnetで実行するのが怖い方もおられると思います。気休め程度ですが、実際にどのように動作するのかをApothem用に1つだけコードを用意しました。
+Some may be afraid to run it on the Mainnet. Although it's just for peace of mind, we have prepared a single code for Apothem.
 ```
-node apothem_getBalances_Pli.js
+node apothem_getBalances_Pli
+
+.js
 ```
-テスト用XDCとPLIは以下から取得してください
+Get test XDC and PLI from the following:
 - Apothem XDC : https://faucet.blocksscan.io/
 - Apothem PLI : https://faucet.goplugin.co/
-
-
