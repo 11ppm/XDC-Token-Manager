@@ -67,19 +67,19 @@ By installing these, you can utilize their respective functionalities.
 
 - If you're running it for the first time, always choose option 1 first. This will encrypt your `.env`. As a result, an encrypted `.env.encrypted` file and a `keys.json` necessary for decryption are created, and the `.env` is deleted. Without `.env.encrypted` and `keys.json`, decryption is not possible.
 
-### 1. Encrypt environment file .env (encrypt.js)
+### Option 1. Encrypt environment file .env (encrypt.js)
 - You need to edit the `.env` beforehand
 - Enter an arbitrary password twice. Don't forget the password you enter. Never share your private keys or password with others, and keep them in a safe place.
 - The `.env` file will be deleted
-### 2. Get PLI balances (getBalances_Pli.js)
+### Option 2. Get PLI balances (getBalances_Pli.js)
 - Output in a csv file
-### 3. Get SRX balances (getBalances_Srx.js)
+### Option 3. Get SRX balances (getBalances_Srx.js)
 - Output in a csv file
-### 4. Send PLI to one address (sendPliToOneAddress.js)
+### Option 4. Send PLI to one address (sendPliToOneAddress.js)
 - Sent to the `YOUR_RECIPIENT_WALLET_ADDRESS` in your `.env`. If forgotten, run `6.` to decrypt the `.env`
-### 5. Send SRX to one address (sendSrxToOneAddress.js)
+### Option 5. Send SRX to one address (sendSrxToOneAddress.js)
 - Sent to the `YOUR_RECIPIENT_WALLET_ADDRESS` in your `.env`. If forgotten, run `6.` to decrypt the `.env`
-### 6. Decrypt environment file .env.encrypted (decrypt.js)
+### Option 6. Decrypt environment file .env.encrypted (decrypt.js)
 - Without `.env.encrypted` and `keys.json`, decryption is not possible. Backup these two to restore the `.env`.
 
 ## 6. Check XDC and PLI balances on Apothem
