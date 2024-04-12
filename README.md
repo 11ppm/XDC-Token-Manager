@@ -86,9 +86,7 @@ By installing these, you can utilize their respective functionalities.
 
 Some may be afraid to run it on the Mainnet. Although it's just for peace of mind, we have prepared a single code for Apothem.
 ```
-node apothem_getBalances_Pli
-
-.js
+node apothem_getBalances_Pli.js
 ```
 Get test XDC and PLI from the following:
 - Apothem XDC : https://faucet.blocksscan.io/
