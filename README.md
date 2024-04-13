@@ -13,6 +13,29 @@ This repository enables you to check the balance of XDC and XRC20 tokens and tra
 
 - While it is possible to check the balance using just a wallet address, a private key is required for transfers. However, managing private keys is extremely important, so we use a `.env` file, further encrypted and protected by a password.
 
+### About the File Encryption Script
+
+This Node.js script is designed to securely protect important configuration files (`.env`). The script operates in the following manner:
+
+#### Encryption Process
+
+1. **Encryption of the .env file**:
+   - The `aes-256-cbc` algorithm is used, employing randomly generated keys and an Initialization Vector (IV) to encrypt the `.env` file.
+   - The encrypted data is saved as `.env.encrypted`.
+
+2. **Secure storage of key information**:
+   - The keys and IV used to encrypt the `.env` file are encrypted again for additional protection.
+   - A new key and IV are generated based on the password entered by the user, and these are used to re-encrypt the key information (SECRET_KEY and IV) using the `aes-256-cbc` algorithm.
+   - The re-encrypted data is stored in `keys.json`.
+
+#### Security Considerations
+
+- Passwords are safely processed using the robust key derivation function `crypto.scryptSync`, although it is recommended to use random salt in actual usage.
+- The key information within the `keys.json` file is also encrypted, ensuring that in the event of a data breach, key information is not directly exposed.
+
+This script is particularly useful for protecting files containing sensitive information such as environment variables and API keys. The double encryption adds an extra layer of security, further enhancing data protection.
+
+
 ## 1. Copy Repository
 ```
 cd && git clone https://github.com/11ppm/XDC-Token-Manager
